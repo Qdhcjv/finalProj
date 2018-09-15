@@ -1,0 +1,22 @@
+.start begin
+mess: .String “factorial program”
+mess1: .String “the factorial of “
+mess2: .String “ is “
+fact: movrr r1 r9 ;r1 = 6
+subir #1 r9 ;r9 = 5 - last number multiplied by
+movrr r9 r8 ;r8 = 5
+mulrr r1 r8 ;r8 = 30
+cmpir #1 r9
+jmpn fact
+movrr r8 r0 ;r0 = factorialized result
+ret
+outans: outs mess1
+outcr r1 
+outs mess2
+outcr r0
+begin:  outs mess ;print title message
+outci #10 ;newline char
+movir #6 r1
+jsr fact ;calls factorial subroutine- r1 is preserved, r5-9 are	pushed onto stack
+jsr outans
+halt

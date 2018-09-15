@@ -1,0 +1,68 @@
+.start begin
+
+; ### INITIALIZERS ###
+Tuples: .tuple /0 _ 0 _ r/
+.tuple /0 0 1 1 r/
+.tuple /0 1 1 0 r/
+.tuple /1 1 1 0 r/
+.tuple /1 0 1 1 r/
+Tape: .string "_110000_"
+Currentstate: .integer #0 ; MUST BE SET - INITIAL STATE
+Tuplelength: .integer #25 ; MUST BE SET - # TUPLES * 5
+
+; ### REGISTERS ###
+; r0 - tuple counter
+; r1 - cs read from tuple
+; r2 - ic read from tuple
+; r3 - ns read from tuple
+; r4 - nc read from tuple
+; r5 - dir read from tuple
+; r8 - tape character
+; r9 - tape counter (head)
+
+; ### PROGRAM ###
+begin: movar Tuples r0 ; tuple location in r0 - should be #0
+movar Tape r9 ; tape location in r9
+addir #1 r9 ; move to first tape char
+outs Tape
+jmp run
+
+nexttuple: addir #4 r0
+
+run: cmpmr Tuplelength r0
+jmpz end
+movxr r0 r1 ; cs from tuple in r1
+addir #1 r0
+movxr r0 r2 ; ic from tuple in r2
+movxr r9 r8 ; tape char in r8
+cmpmr Currentstate r1 ; check if states match- if not, next tuple
+jmpne nexttuple
+cmprr r2 r8 ; check if input chars match- if not, next tuple
+jmpne nexttuple
+
+correcttuple: addir #1 r0
+movxr r0 r3 ; move ns to r3
+movrm r3 Currentstate ; update Currentstate variable with tuple ns
+addir #1 r0 ; shift to nc
+movxr r0 r4 ; move nc to r4
+addir #1 r0 ; move to direction
+movxr r0 r5 ; move dir to r5
+
+modifytape: movrx r4 r9
+movir #0 r0
+cmpir #76 r5 ; compare direction to uppercase 'L'
+jmpz moveleft
+cmpir #108 r5 ; compare direction to lowercase 'l'
+jmpz moveleft
+jmp moveright
+
+moveleft: subir #1 r9
+jmp run
+
+moveright: addir #1 r9
+jmp run
+
+end: outci #10
+outs Tape
+outci #10
+halt

@@ -1,0 +1,15 @@
+.start div
+number: .integer #579574
+mess1: .String " divided by "
+divisor: .integer #2471
+mess2: .String " equals "
+div: movmr number r0
+movmr divisor r1
+printi r0
+outs mess1 
+printi r1
+divrr r1 r0
+outs mess2
+printi r0
+outci #10
+halt

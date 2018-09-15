@@ -1,0 +1,21 @@
+.start here 
+number: .integer #3
+mess1: .String "The factorial of "
+mess2: .String " is "
+here: movmr number r0
+      jsr mystery
+      halt
+mystery: movrr r0 r1
+         movrr r1 r2
+loop: subir #1 r1
+      cmpir #1 r1
+      jmpz done
+      mulrr r1 r2
+      jmp loop
+done: outs mess1
+      printi r0
+      outs mess2
+      printi r2
+      outci #10
+      ret
+.end
