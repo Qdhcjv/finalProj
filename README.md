@@ -9,3 +9,5 @@ Prerequisites:
 
 Operation:
   Place all files in a folder. Run `swift build` within the directory to "assemble" (ha!) the code into a binary file called SAP. This file will be placed at `pwd`/.build/debug/SAP - move it to the main directory alongside the downloaded Swift and assembly files. Assign SAP execution privileges (`chmod +x SAP`) and run SAP (`./SAP`). 
+
+Some basic assembly programs are included (Divide.txt, Factorial.txt) along with a 5-tuple turing machine simulator (TM3.txt). It takes instructions (tuples) in the form R(current state, symbol read, symbol written, direction, next state).
