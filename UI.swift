@@ -11,6 +11,9 @@ class UI {
         } catch let error as NSError {
             return "Failed writing to URL: \(url), Error: " + error.localizedDescription
         }
+        catch {
+            return "Failed writing to URL for an unknown reason."
+        }
         return nil
     }
     func run() {
